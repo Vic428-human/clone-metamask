@@ -21256,7 +21256,8 @@ class InfuraProvider extends UrlJsonRpcProvider {
     return this.projectId === defaultProjectId;
   }
 }
-class JsonRpcBatchProvider extends JsonRpcProvider {
+class JsonRpcBatchProvider extends JsonRpcProvider
+ {
   send(method, params) {
     const request = {
       method: method,
