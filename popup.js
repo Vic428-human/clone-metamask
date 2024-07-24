@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 顯示創建帳號的彈出視窗
   document.getElementById("openCreate").addEventListener("click", openCreate);
 
-  // 創建帳號
+  // ww
   document.getElementById("sign_up").addEventListener("click", signUp);
 
   document.getElementById("login_up").addEventListener("click", login);
@@ -79,7 +79,10 @@ function handler() {
   document.getElementById("transfer_center").style.display = "flex";
   const amount = document.getElementById("amount").value;
   const address = document.getElementById("address").value;
-  // private_key & testAccount 不要推到github上 參考notion
+  // private_key & testAccount 不要推到github上，因為有別人的私鑰就能直接進行轉帳
+  // 我就是苦主QQ
+  const private_key = "";
+  const testAccount = "";
 
   // connect blockchain which is polygon
   const provider = new ethers.provider.JsonRpcProvider(provideURL);
