@@ -1,6 +1,3 @@
-// import { ethers } from "ethers";
-const { ethers } = require("ethers");
-
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("accountList")
@@ -10,24 +7,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("transferFund").addEventListener("click", handler);
 
+  // 打開切換網路的下拉選單
   document
     .getElementById("hearder_network")
     .addEventListener("click", getOpenNetwork);
-
+  // 點選其中一項網路，點選後，收起下拉選單
   document
     .getElementById("network_item")
     .addEventListener("click", getSelectedNetwork);
 
+  // 設定新的Network
   document.getElementById("add_network").addEventListener("click", setNetwork);
 
+  // 使用者登入
   document.getElementById("loginAccount").addEventListener("click", loginUser);
 
+  // 使用者創建
   document
     .getElementById("accountCreate")
     .addEventListener("click", createUser);
 
+  // 顯示創建帳號的彈出視窗
   document.getElementById("openCreate").addEventListener("click", openCreate);
 
+  // 創建帳號
   document.getElementById("sign_up").addEventListener("click", signUp);
 
   document.getElementById("login_up").addEventListener("click", login);
@@ -48,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("open_activity")
     .addEventListener("click", openActivity);
 
+  // 打開首頁
   document.getElementById("goHomePage").addEventListener("click", goHomePage);
 
   document
@@ -57,45 +61,177 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("open_In").addEventListener("click", openImport);
 });
 
+// STATE VARIABLE
 let provideURL =
-  "https://eth-sepolia.g.alchemy.com/v2/zeAXdZvtVQ4Js5rcyZ7eW77ysa-kL-bz";
+  "https://eth-mainnet.g.alchemy.com/v2/zeAXdZvtVQ4Js5rcyZ7eW77ysa-kL-bz";
 
 // let provider;
 let privateKey;
 let address;
 
+/*
+  FUNCTION
+*/
+
+// 轉帳
 function handler() {
   // setting our loader
   document.getElementById("transfer_center").style.display = "flex";
   const amount = document.getElementById("amount").value;
   const address = document.getElementById("address").value;
-  // private_key & testAccount 不要推到github上
-  const private_key =
-    "5cbe1fac3378152c9f2c1351729eeeaf2b743797b50090c44f59df52baccafdf";
-  const testAccount = "0xd295b30Fe91b63dacB38b64e03855F4e2B090fdf";
-  // ether package global object
-  // PROVIDER
+  // private_key & testAccount 不要推到github上 參考notion
+
+  // connect blockchain which is polygon
   const provider = new ethers.provider.JsonRpcProvider(provideURL);
   let wallet = new ethers.Wallet(privateKey, provider);
+
+  const tx = {
+    to: address,
+    value: ethers.utils.parseEther(amount),
+  };
+
+  // see the transaction method
+  let a = document.getElementById("link");
+  a.href = "somelink url";
+
+  wallet.sendTransaction(tx).then((txObj) => {
+    console.log("txHash", txObj.hash);
+    document.getElementById("transfer_center").style.display = "none";
+    const a = document.getElementById("link");
+    document.getElementById("link").style.display = "block";
+  });
 }
 
-function checkBalance() {}
+// 檢查餘額
+function checkBalance(address) {
+  const provider = new ethers.provider.JsonRpcProvider(provideURL);
+  provider.getBalence(address).then((balance) => {
+    const balanceInEth = ethers.utils.formatEther(balance);
 
-function getOpenNetwork() {}
+    document.getElementById(
+      "accountBlance"
+    ).innerHTML = `${balanceInEth} MATIC`;
 
-function getSelectedNetwork() {}
+    document.getElementById("userAddress").innerHTML = `${address.slice(
+      0,
+      15
+    )}`;
+  });
+}
 
-function setNetwork() {}
+// 開啟網路模組
+function getOpenNetwork() {
+  document.getElementById("network").style.display = "block";
+}
+// 已經被選取的網路
+// 此版本不測試 Goerli 網路
+function getSelectedNetwork(e) {
+  // 被選擇的 網路所在的元素位置
+  const element = document.getElementById("selected_network");
+  // 下拉選單被點選時，被點選的那一個，顯示在 網路所在的元素位置
+  element.innerHTML = e.target.innerHTML;
+  if (e.target.innerHTML === "Ethereum Mainnet") {
+    // alchemy 上的 Ethereum 主鏈
+    provideURL =
+      "https://eth-mainnet.g.alchemy.com/v2/zeAXdZvtVQ4Js5rcyZ7eW77ysa-kL-bz";
+    document.getElementById("network").style.display = "none";
+  } else if (e.target.innerHTML === "Polygon Mainnet") {
+    // web3 api endpoint 上的 polygon鏈
+    provideURL = "https://rpc.ankr.com/polygon";
+    document.getElementById("network").style.display = "none";
+  } else if (e.target.innerHTML === "Polygon Amoy") {
+    // alchemy 上的 polygon Amoy 測試鏈
+    provideURL =
+      "https://polygon-amoy.g.alchemy.com/v2/zeAXdZvtVQ4Js5rcyZ7eW77ysa-kL-bz";
+    document.getElementById("network").style.display = "none";
+  } else if (e.target.innerHTML === "Sepolia Test Network") {
+    // web3 api endpoint 上的 eth_sepolia 測試鏈
+    provideURL = "https://rpc.ankr.com/eth_sepolia";
+    document.getElementById("network").style.display = "none";
+  }
+}
 
-function loginUser() {}
+// 設定新的Network
+function setNetwork() {
+  document.getElementById("network").style.display = "none";
+}
 
-function createUser() {}
+// 使用者登入
+function loginUser() {
+  document.getElementById("CreateAccount").style.display = "none";
+  document.getElementById("LoginUser").style.display = "block";
+}
 
-function openCreateUser() {}
+// 使用者創建
+function createUser() {
+  document.getElementById("CreateAccount").style.display = "block";
+  document.getElementById("LoginUser").style.display = "none";
+}
+// 顯示創建帳號的彈出視窗
+function openCreate() {
+  document.getElementById("CreateAccount").style.display = "none";
+  document.getElementById("createpopUp").style.display = "block";
+}
 
-function openCreate() {}
+function signUp() {
+  const name = document.getElementById("sign_up_name").value;
+  const email = document.getElementById("sign_up_email").value;
+  const password = document.getElementById("sign_up_password").value;
+  const passwordConfirm = document.getElementById(
+    "sign_up_passwordConfirm"
+  ).value;
 
-function signUp() {}
+  document.getElementById("field").style.display = "none";
+  document.getElementById("center").style.display = "block";
+
+  const wallet = ethers.wallet.createRandom();
+
+  if (wallet.address) {
+    // 產出了錢包地址
+    // 可以對 private key 加密，並存儲資訊在database，確認db是100%安全
+    console.log(wallet);
+    const url = "http://localhost:3000/api/vi/user/signup";
+    const data = {
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirm: passwordConfirm,
+      address: wallet.address,
+      private_key: wallet.privateKey,
+      mnemonic: wallet.mnemonic.phrase,
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        document.getElementById("createAddress").innerHTML = wallet.address;
+        document.getElementById("createPrivateKey").innerHTML =
+          wallet.privateKey;
+        document.getElementById("createMnemonic").innerHTML =
+          wallet.mnemonic.phrase;
+        document.getElementById("center").style.display = "block";
+        document.getElementById("sign_up").style.display = "none";
+
+        const userWallet = {
+          address: wallet.address,
+          private_key: wallet.privateKey,
+          mnemonic: wallet.mnemonic.phrase,
+        };
+
+        const jsonObj = JSON.stringify(userWallet);
+        localStorage.setItem("userWallet", jsonObj);
+        document.getElementById("goHomePage").style.display = "block";
+        window.location.reload();
+      })
+      .catch((error) => console.error(error));
+  }
+}
 
 function login() {}
 
@@ -115,6 +251,7 @@ function openActivity() {}
 
 function openAssets() {}
 
+// 打開首頁
 function goHomePage() {}
 
 function closeImportModel() {}
