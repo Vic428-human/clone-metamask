@@ -1,7 +1,8 @@
 ### ：（2024.07.25 更新）
 
-- [預先製作匯入 Token 雛型 添加在 TODO\addToken.jsx]
-- [popup 模塊製作]
+- [預先製作匯入 Token 雛型 添加再 TODO\addToken.jsx](https://github.com/Vic428-human/clone-metamask/blob/main/TODO/addToken.jsx)
+
+- [popup 模塊製作](https://github.com/Vic428-human/clone-metamask/blob/main/scripting.js)
 
 #### NodeJs & NPM Version
 
