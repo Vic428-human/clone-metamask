@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 打開 匯入Token 頁面
   document.getElementById("open_Import").addEventListener("click", openImport);
 
+  // 關閉激活頁面 > 打開資產頁面
   document.getElementById("open_assets").addEventListener("click", openAssets);
 
   // 關閉資產頁面 > 打開激活頁面
@@ -57,9 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("open_activity")
     .addEventListener("click", openActivity);
 
-  // 打開首頁
+  // 從彈窗回到首頁
   document.getElementById("goHomePage").addEventListener("click", goHomePage);
 
+  // 點選匯入帳號按鈕 > 打開匯入帳號介面UI
   document
     .getElementById("openAccountImport")
     .addEventListener("click", openImportModel);
@@ -313,14 +315,28 @@ function openActivity() {
   document.getElementById("assets").style.display = "none";
 }
 
-function openImportModel() {}
+// 關閉激活頁面 > 打開資產頁面
+function openAssets() {
+  document.getElementById("activity").style.display = "none";
+  document.getElementById("assets").style.display = "block";
+}
 
-function openAssets() {}
+// 從彈窗回到首頁
+function goHomePage() {
+  document.getElementById("create_popUp").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+// 點選 匯入帳號按鈕 > 打開匯入帳號介面UI
+function openImportModel() {
+  document.getElementById("import_account").style.display = "block";
+  document.getElementById("home").style.display = "none";
+}
 
-// 打開首頁
-function goHomePage() {}
-
-function closeImportModel() {}
+// 點選 匯入帳號介面UI關閉按鈕 > 回到首頁
+function closeImportModel() {
+  document.getElementById("import_account").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
 
 function addToken() {}
 
