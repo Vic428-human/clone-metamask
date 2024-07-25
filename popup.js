@@ -338,7 +338,34 @@ function closeImportModel() {
   document.getElementById("home").style.display = "block";
 }
 
-function addToken() {}
+// 增加新的ERC20 Token 需把該筆資料打到後端DB
+function addToken() {
+  const address = document.getElementById("token_address").value;
+  const name = document.getElementById("name").value;
+  const symbol = document.getElementById("symbol").value;
+
+  const url = "http://localhost:3000/api/v1/tokens/createToken";
+
+  const data = {
+    name: name,
+    address: address,
+    symbol: symbol,
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log("result==>", result);
+      window.location.reload();
+    })
+    .catch((error) => console.error(error));
+}
 
 function myFunction() {}
 
