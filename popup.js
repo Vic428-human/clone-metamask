@@ -30,9 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // 顯示創建帳號的彈出視窗
   document.getElementById("openCreate").addEventListener("click", openCreate);
 
-  // ww
+  // 註冊帳號
   document.getElementById("sign_up").addEventListener("click", signUp);
 
+  // 登入 邏輯
   document.getElementById("login_up").addEventListener("click", login);
 
   document.getElementById("logout").addEventListener("click", logout);
@@ -165,17 +166,18 @@ function loginUser() {
   document.getElementById("LoginUser").style.display = "block";
 }
 
-// 使用者創建
+// 使用者創建 UI
 function createUser() {
   document.getElementById("CreateAccount").style.display = "block";
   document.getElementById("LoginUser").style.display = "none";
 }
-// 顯示創建帳號的彈出視窗
+// 顯示創建帳號的彈出視窗 UI
 function openCreate() {
   document.getElementById("CreateAccount").style.display = "none";
   document.getElementById("createpopUp").style.display = "block";
 }
 
+// 註冊帳號 邏輯
 function signUp() {
   const name = document.getElementById("sign_up_name").value;
   const email = document.getElementById("sign_up_email").value;
@@ -193,7 +195,7 @@ function signUp() {
     // 產出了錢包地址
     // 可以對 private key 加密，並存儲資訊在database，確認db是100%安全
     console.log(wallet);
-    const url = "http://localhost:3000/api/vi/user/signup";
+    const url = "http://localhost:3000/api/v1/user/signup";
     const data = {
       name: name,
       email: email,
@@ -236,7 +238,40 @@ function signUp() {
   }
 }
 
-function login() {}
+// 登入 邏輯
+function login() {
+  document.getElementById("login_form").style.display = "none";
+  document.getElementById("center").style.display = "block";
+  const email = document.getElementById("login_email").value;
+  const password = document.getElementById("login_password").value;
+  const url = "http://localhost:3000/api/v1/user/login";
+  const data = {
+    email: email,
+    password: password,
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      
+      const userWallet = {
+        address: result.data.user.address,
+        private_key: result.data.user.private_key,
+        mnemonic: result.data.user.mnemonic,
+      };
+
+      const jsonObj = JSON.stringify(userWallet);
+      localStorage.setItem("userWallet", jsonObj);
+      window.location.reload();
+    })
+    .catch((error) => console.error(error));
+}
 
 function logout() {}
 
