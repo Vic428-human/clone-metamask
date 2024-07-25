@@ -36,18 +36,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // 登入 邏輯
   document.getElementById("login_up").addEventListener("click", login);
 
+  // 登出 邏輯
   document.getElementById("logout").addEventListener("click", logout);
 
+  // 打開轉帳頁面
   document
     .getElementById("open-transfer")
     .addEventListener("click", openTransfer);
 
+  // 轉帳頁面 > 回到首頁
   document.getElementById("goBack").addEventListener("click", goBack);
 
+  // 打開 匯入Token 頁面
   document.getElementById("open_Import").addEventListener("click", openImport);
 
   document.getElementById("open_assets").addEventListener("click", openAssets);
 
+  // 關閉資產頁面 > 打開激活頁面
   document
     .getElementById("open_activity")
     .addEventListener("click", openActivity);
@@ -259,7 +264,6 @@ function login() {
   })
     .then((response) => response.json())
     .then((result) => {
-      
       const userWallet = {
         address: result.data.user.address,
         private_key: result.data.user.private_key,
@@ -273,19 +277,43 @@ function login() {
     .catch((error) => console.error(error));
 }
 
-function logout() {}
+// 登出 邏輯
+function logout() {
+  localStorage.removeItem("userWallet");
+  window.location.reload();
+}
 
-function openTransfer() {}
+// 打開轉帳頁面
+function openTransfer() {
+  document.getElementById("transfer_form").style.display = "block";
+  document.getElementById("home").style.display = "none";
+}
 
-function goBack() {}
+// 轉帳頁面 > 回到首頁
+function goBack() {
+  document.getElementById("transfer_form").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
 
-function openImport() {}
+// 打開 匯入Token 頁面
+function openImport() {
+  document.getElementById("import_token").style.display = "block";
+  document.getElementById("home").style.display = "none";
+}
+
+// 匯入Token 頁面 > 回到首頁
+function importGoBack() {
+  document.getElementById("import_token").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+
+// 關閉資產頁面 > 打開激活頁面
+function openActivity() {
+  document.getElementById("activity").style.display = "block";
+  document.getElementById("assets").style.display = "none";
+}
 
 function openImportModel() {}
-
-function importGoBack() {}
-
-function openActivity() {}
 
 function openAssets() {}
 
