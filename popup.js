@@ -367,7 +367,44 @@ function addToken() {
     .catch((error) => console.error(error));
 }
 
-function myFunction() {}
+// TODO:
+// 假如之前已經登入過，直接進入首頁
+// 顯示 Native token 跟 ERC20 Token
+function myFunction() {
+  const str = localStorage.getItem("userWallet");
+  const parsedObj = JSON.parse(str);
+
+  // 錢包地址
+  if (parsedObj.address) {
+    // https://israynotarray.com/javascript/20230310/4188721863/
+    document.getElementById("LoginUser").style.display = "none";
+    document.getElementById("home").style.display = "block";
+    checkBalance(parsedObj.address); // 查出來的是 native token餘額
+  }
+  // 可以針對 CSS Selector 來選取元素，所以選取的方式就非常多種
+  const tokenRender = document.querySelector(".assets");
+  const accountRender = document.querySelector(".accountList");
+
+  // 其餘ERC20Token
+  const url = "http://localhost:3000/api/v1/tokens/allToken";
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      let elements = "";
+
+      data.data.tokens.map(
+        (token) =>
+          `<div class="assets_item">
+              <img class="assets_item_img" src="./assets/theblockchaincoders.png" alt="assets_item_img" height="600">
+              <span class="">${token.address.slice(0, 15)}</span>
+              <span class="">${token.symbol}</span>
+          </div>`
+      );
+      tokenRender.innerHTML = elements;
+    })
+    .catch((error) => console.error(error));
+}
 
 function copyAddress() {}
 
