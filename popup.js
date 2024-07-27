@@ -367,9 +367,7 @@ function addToken() {
     .catch((error) => console.error(error));
 }
 
-// TODO:
-// 假如之前已經登入過，直接進入首頁
-// 顯示 Native token 跟 ERC20 Token
+// Token地址與符號列表 / 錢包地址清單與私鑰
 function myFunction() {
   const str = localStorage.getItem("userWallet");
   const parsedObj = JSON.parse(str);
@@ -385,15 +383,17 @@ function myFunction() {
   const tokenRender = document.querySelector(".assets");
   const accountRender = document.querySelector(".accountList");
 
-  // 其餘ERC20Token
-  const url = "http://localhost:3000/api/v1/tokens/allToken";
+  // 其餘ERC20Token 對應的token地址跟符號
+  const urlAllToken = "http://localhost:3000/api/v1/tokens/allToken";
+  // 所有錢包地址，每個帳號有對應的私鑰
+  const urlAllaccount = "http://localhost:3000/api/v1/account/allaccount";
 
-  fetch(url)
+  fetch(urlAllToken)
     .then((response) => response.json())
     .then((data) => {
       let elements = "";
 
-      data.data.tokens.map(
+      elements = data.data.tokens.map(
         (token) =>
           `<div class="assets_item">
               <img class="assets_item_img" src="./assets/theblockchaincoders.png" alt="assets_item_img" height="600">
@@ -402,6 +402,28 @@ function myFunction() {
           </div>`
       );
       tokenRender.innerHTML = elements;
+    })
+    .catch((error) => console.error(error));
+
+  fetch(urlAllaccount)
+    .then((response) => response.json())
+    .then((data) => {
+      let accounts = "";
+
+      // TODO: data-privateKey 直接寫在] data-* 會有被竊取的風險，所以這邊還是需要進行加密
+      accounts = data.data.tokens.map(
+        (account, i) =>
+          `<div class="assets_item">
+              <p class="">${i + 1}</p>
+              <p class="accountValue" data-address=${
+                account.address
+              } data-privateKey=${account.privateKey}>${account.address.slice(
+            0,
+            25
+          )}...</p>
+          </div>`
+      );
+      accountRender.innerHTML = accounts;
     })
     .catch((error) => console.error(error));
 }
