@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // 切換帳號
   document
     .getElementById("accountList")
     .addEventListener("click", changeAccount);
 
+  // 複製地址
   document.getElementById("userAddress").addEventListener("click", copyAddress);
 
   document.getElementById("transferFund").addEventListener("click", handler);
@@ -428,6 +430,24 @@ function myFunction() {
     .catch((error) => console.error(error));
 }
 
-function copyAddress() {}
+// 複製地址
+function copyAddress() {
+  navigator.clipboard.writeText(address);
+}
 
-function changeAccount() {}
+// 切換帳號
+function changeAccount() {
+  const data = document.querySelector('.accountValue');
+  const address = data.getAttribute('data-address');
+  const privateKey = data.getAttribute('data-privateKey');
+  const userWallet = {
+    address: address,
+    private_key: privateKey,
+    mnemonic: "Changed",
+  };
+  const jsonObj = JSON.stringify(userWallet);
+  localStorage.setItem("userWallet", jsonObj);
+  window.location.reload();
+}
+
+window.onload() = myFunction;
