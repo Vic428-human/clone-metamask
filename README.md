@@ -1,5 +1,7 @@
 ### （2024.07.25 - 2024.07.31 更新）
 
+- [帳號/ERC20/使用者 mongoose 模型建置](https://github.com/Vic428-human/clone-metamask/tree/main/chromeapi/Api/Model)
+
 - [Token 地址與符號列表 / 錢包地址清單與私鑰](https://github.com/Vic428-human/clone-metamask/blob/main/popup.js)
 
 - [預先製作匯入 Token 雛型 添加再 TODO\addToken.jsx](https://github.com/Vic428-human/clone-metamask/blob/main/TODO/addToken.jsx)
