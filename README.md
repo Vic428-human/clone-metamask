@@ -1,3 +1,7 @@
+### （2024.08.01 - 2024.0811 更新）
+
+- [對 db 修改密碼前，需要進行加密，以及需要知道是幾秒鐘之前修正的](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
+
 ### （2024.07.25 - 2024.07.31 更新）
 
 - [帳號/ERC20/使用者 mongoose 模型建置](https://github.com/Vic428-human/clone-metamask/tree/main/chromeapi/Api/Model)
