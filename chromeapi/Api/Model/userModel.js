@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+import { getTimestampOneSecondAgo } from "../utils/tools";
 
 // make sure every value is equal to "something"
 function validator(val) {
@@ -32,6 +34,12 @@ const userSchema = new mongoose.Schema({
   mnemonic: String,
 });
 
+/*
+  MEMO:
+   在 update()、findOneAndUpdate() 等操作上不会执行 pre 和 post save() 钩子
+   使用 findById() 和 user.save() 会更好。
+*/
+
 //pre钩子注册：
 userSchema.pre("init", (doc) => {
   console.log("pre-init");
@@ -43,6 +51,21 @@ userSchema.pre("validate", (next) => {
 
 userSchema.pre("save", async function (next) {
   console.log("save");
+  // Only run this function if password was moddified (not on other update functions)
+  if (!this.isModified("password")) return next();
+  // Hash password with strength of 12
+  this.password = await bcrypt.hash(this.password, 12);
+  // remove the confirm field
+  this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre("save", async function (next) {
+  console.log("save");
+  // Only run this function if password was moddified (not on other update functions)
+  if (!this.isModified("password")) return next();
+
+  this.passwordChangeAt = getTimestampOneSecondAgo(Date.now(), 1);
   next();
 });
 
