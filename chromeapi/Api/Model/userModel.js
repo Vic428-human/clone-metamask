@@ -75,6 +75,15 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
+// candidatePassword：用户输入的待验证密码。
+// userPassword：存储在数据库中的已加密密码。
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
 // 于判断用户是否在特定时间点之后更改了密码
 // 方法用于检查存储在 JWT 中的时间戳是否早于密码最后一次更改的时间
 // 如果是，代表密碼已經有更改過
