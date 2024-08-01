@@ -1,5 +1,9 @@
 ### （2024.08.01 - 2024.0811 更新）
 
+- [于判断用户是否在特定时间点之后更改了密码](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
+
+- [只顯示其中 active 為 true 的用戶](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
+
 - [對 db 修改密碼前，需要進行加密，以及需要知道是幾秒鐘之前修正的](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
 
 ### （2024.07.25 - 2024.07.31 更新）
