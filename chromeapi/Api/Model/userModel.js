@@ -65,7 +65,7 @@ userSchema.pre("save", async function (next) {
   // Only run this function if password was moddified (not on other update functions)
   if (!this.isModified("password")) return next();
 
-  this.passwordChangeAt = getTimestampOneSecondAgo(Date.now(), 1);
+  this.passwordChangedAt = getTimestampOneSecondAgo(Date.now(), 1);
   next();
 });
 
@@ -74,6 +74,35 @@ userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
+
+// 于判断用户是否在特定时间点之后更改了密码
+// 方法用于检查存储在 JWT 中的时间戳是否早于密码最后一次更改的时间
+// 如果是，代表密碼已經有更改過
+// -----範例-----
+// const JWTTimestamp = 1690963200; // 2023-08-02T00:00:00Z
+
+// const user = new User({
+//   email: 'example@example.com',
+//   password: 'password123',
+//   passwordChangedAt: new Date('2023-08-01T12:00:00Z') // 密码最后更改时间
+// });
+
+// 获取时间戳 > 转换为秒 > 解析为整数
+// changedTimestamp = 的值将是 1690891200。
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // changedTimestamp = 169089120 , JWTTimestamp = 1690963200
+  // JWTTimestamp > changedTimestamp ( 還沒過期，所以還沒改密碼 )
+  return false;
+};
 
 //post钩子注册：
 studentSchema.post("init", (doc) => {
@@ -96,12 +125,12 @@ studentSchema.post("find", function (doc, next) {
 });
 
 //模型创建：将模式编译成模型
-const Token = mongoose.model("Token", userSchema);
+const User = mongoose.model("User", userSchema);
 
-module.exports = Token;
+module.exports = User;
 
 //save方法引起的相关已注册的钩子的执行
-// let tokenObj = new Token({
+// let userObj = new User({
 //   name: "測試人員",
 //   email: "abc@gmail.com",
 //   password: 123456,
