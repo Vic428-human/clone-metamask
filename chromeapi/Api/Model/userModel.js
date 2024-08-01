@@ -69,8 +69,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.pre("find", function (next) {
-  console.log("find");
+// 只顯示其中 active 為 true  的用戶
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
   next();
 });
 
