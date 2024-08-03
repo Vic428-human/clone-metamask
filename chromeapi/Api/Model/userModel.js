@@ -84,7 +84,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-// 于判断用户是否在特定时间点之后更改了密码
+// 用於判断用户是否在特定时间点之后更改了密码
 // 方法用于检查存储在 JWT 中的时间戳是否早于密码最后一次更改的时间
 // 如果是，代表密碼已經有更改過
 // -----範例-----
