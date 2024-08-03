@@ -1,5 +1,7 @@
 ### （2024.08.01 - 2024.0811 更新）
 
+- [創建使用者業務邏輯，將 jwt 等資訊存在 cookie 裡](https://github.com/Vic428-human/clone-metamask/commit/4e500788da6a1d186aa13b08bf4cc2394aedb1b5)
+
 - [于判断用户是否在特定时间点之后更改了密码](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
 
 - [只顯示其中 active 為 true 的用戶](https://github.com/Vic428-human/clone-metamask/blob/main/chromeapi/Api/Model/userModel.js)
