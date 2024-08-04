@@ -38,7 +38,7 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
-// 註冊帳號的時候使用 mongoose的 model
+// 註冊與登入都會使用到mongoose的model，且成功時都會把jwt info存在cookie
 exports.signUp = async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -50,4 +50,31 @@ exports.signUp = async (req, res, next) => {
     mnemonic: req.body.mnemonic,
   });
   createSendToken(newUser, 201, req, res);
+};
+
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // 1) email 或 密碼其中一個不存在時
+  if (!email || !password) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Please provide email and password!",
+    });
+  }
+
+  // 檢查用戶是否存在並且密碼是否正確
+  // find each User with a email matching &&
+  // selecting the `+password` fields
+  const user = await User.findOne({ email }).select("+password");
+
+  // 使用這不存在
+  // 或 密碼與mongodb的使用者密碼不一致
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    res.status(401).json({
+      status: "fail",
+      message: "Incorrect email or password",
+    });
+    createSendToken(user, 200, req, res);
+  }
 };
