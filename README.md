@@ -1,6 +1,6 @@
 ### （2024.08.01 - 2024.08.11 更新）
 
-- [登入功能，API 回傳錯誤資訊判斷，比對 mongodb 裡的使用者密碼](https://github.com/Vic428-human/clone-metamask/commit/8d191cd93f9eb77a07c877744a61bc352f36fc37)
+- [從 mongodb 找回所有 tokens](https://github.com/Vic428-human/clone-metamask/commit/eaa46e2dc885f61762e97a02e27230c667ec3b2d)
 
 - [創建使用者業務邏輯，將 jwt 等資訊存在 cookie 裡](https://github.com/Vic428-human/clone-metamask/commit/4e500788da6a1d186aa13b08bf4cc2394aedb1b5)
 
