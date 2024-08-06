@@ -78,3 +78,46 @@ exports.login = async (req, res, next) => {
     createSendToken(user, 200, req, res);
   }
 };
+
+/**
+ * 
+ * 
+  // 定義Mongoose模型
+  const MyModel = mongoose.model('MyModel', new mongoose.Schema({
+    name: String,
+    age: Number,
+    friends: [String]
+  }));
+
+  //假設數據
+  const fakeData = [
+    { name: "john", age: 25, friends: ["jane", "joe"] },
+    { name: "johnny", age: 30, friends: ["jim", "jack"] },
+    { name: 'jack', age: 28, friends: ['john'] },
+  ];
+
+  // 查找名字類似 john 的文檔並選擇 "name" 和 "friends" 字段
+  const johnLikeDocs = await MyModel.find(
+    { name: /john/i },
+    "name friends"
+  ).exec();
+
+  johnLikeDocs 結果 ==>  [
+  { _id: 60f8d0c8e25b4c2f441a8e55, name: 'john', friends: [ 'jane', 'joe' ] },
+  { _id: 60f8d0c8e25b4c2f441a8e57, name: 'johnny', friends: [ 'jim', 'jack' ] },
+]
+ */
+
+exports.allToken = async (req, res, next) => {
+  // find all documents
+  // await MyModel.find({});
+  const tokens = await Token.find();
+
+  // SEND RESPONSE
+  res.status(200).json({
+    status: "success",
+    data: {
+      tokens,
+    },
+  });
+};
